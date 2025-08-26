@@ -10,10 +10,21 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   bool _isPasswordVisible = false;
   String _password = "";
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   bool get hasMinLength => _password.length >= 8;
   bool get hasNumber => _password.contains(RegExp(r'[0-9]'));
   bool get hasUppercase => _password.contains(RegExp(r'[A-Z]'));
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +50,11 @@ class _RegisterPageState extends State<RegisterPage> {
             const SizedBox(height: 20),
 
             // Logo
-            Image.asset('assets/logo.png', height: 100),
+            Image.asset(
+              'assets/logo.png',
+              height: 100,
+              filterQuality: FilterQuality.high,
+            ),
 
             const SizedBox(height: 10),
             const Text(
@@ -50,6 +65,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
             // Name Field
             TextField(
+              controller: _nameController,
               decoration: InputDecoration(
                 labelText: 'სახელი',
                 border: OutlineInputBorder(
@@ -61,6 +77,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
             // Email Field
             TextField(
+              controller: _emailController,
               decoration: InputDecoration(
                 labelText: 'ელ.ფოსტა',
                 border: OutlineInputBorder(
@@ -72,6 +89,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
             // Password Field
             TextField(
+              controller: _passwordController,
               obscureText: !_isPasswordVisible,
               onChanged: (value) {
                 setState(() {
@@ -100,53 +118,63 @@ class _RegisterPageState extends State<RegisterPage> {
             const SizedBox(height: 10),
 
             // Password Rules
-            Row(
-              children: [
-                Icon(
-                  hasMinLength ? Icons.check_circle : Icons.cancel,
-                  color: hasMinLength ? Colors.green : Colors.red,
-                  size: 18,
-                ),
-                const SizedBox(width: 5),
-                Text(
-                  'მინიმუმ 8 სიმბოლო',
-                  style: TextStyle(
-                    color: hasMinLength ? Colors.green : Colors.red,
+            AnimatedOpacity(
+              opacity: _password.isNotEmpty ? 1.0 : 0.0,
+              duration: const Duration(milliseconds: 200),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        hasMinLength ? Icons.check_circle : Icons.cancel,
+                        color: hasMinLength ? Colors.green : Colors.red,
+                        size: 18,
+                      ),
+                      const SizedBox(width: 5),
+                      Text(
+                        'მინიმუმ 8 სიმბოლო',
+                        style: TextStyle(
+                          color: hasMinLength ? Colors.green : Colors.red,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Icon(
-                  hasNumber ? Icons.check_circle : Icons.cancel,
-                  color: hasNumber ? Colors.green : Colors.red,
-                  size: 18,
-                ),
-                const SizedBox(width: 5),
-                Text(
-                  'მინიმუმ ერთი ციფრი',
-                  style: TextStyle(
-                    color: hasNumber ? Colors.green : Colors.red,
+                  const SizedBox(height: 5),
+                  Row(
+                    children: [
+                      Icon(
+                        hasNumber ? Icons.check_circle : Icons.cancel,
+                        color: hasNumber ? Colors.green : Colors.red,
+                        size: 18,
+                      ),
+                      const SizedBox(width: 5),
+                      Text(
+                        'მინიმუმ ერთი ციფრი',
+                        style: TextStyle(
+                          color: hasNumber ? Colors.green : Colors.red,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Icon(
-                  hasUppercase ? Icons.check_circle : Icons.cancel,
-                  color: hasUppercase ? Colors.green : Colors.red,
-                  size: 18,
-                ),
-                const SizedBox(width: 5),
-                Text(
-                  'მინიმუმ ერთი დიდი ასო',
-                  style: TextStyle(
-                    color: hasUppercase ? Colors.green : Colors.red,
+                  const SizedBox(height: 5),
+                  Row(
+                    children: [
+                      Icon(
+                        hasUppercase ? Icons.check_circle : Icons.cancel,
+                        color: hasUppercase ? Colors.green : Colors.red,
+                        size: 18,
+                      ),
+                      const SizedBox(width: 5),
+                      Text(
+                        'მინიმუმ ერთი დიდი ასო',
+                        style: TextStyle(
+                          color: hasUppercase ? Colors.green : Colors.red,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
 
             const SizedBox(height: 30),
@@ -158,7 +186,7 @@ class _RegisterPageState extends State<RegisterPage> {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: (hasMinLength && hasNumber && hasUppercase)
-                      ? Colors.blue
+                      ? const Color(0xFF0072FF)
                       : Colors.grey.shade300,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),

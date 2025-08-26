@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:test_freeride_login_register_v1/register_page.dart';
+import 'package:FreeRide/register_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -10,6 +10,15 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool _isPasswordVisible = false;
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +31,16 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // Logo
-              Image.asset('assets/logo.png', height: 100),
+              Image.asset(
+                'assets/logo.png',
+                height: 100,
+                filterQuality: FilterQuality.high,
+              ),
               const SizedBox(height: 40),
 
               //Email TextField
               TextField(
+                controller: _emailController,
                 decoration: InputDecoration(
                   hintText: 'ელ.ფოსტა',
                   prefixIcon: const Icon(Icons.email_outlined),
@@ -39,6 +53,7 @@ class _LoginPageState extends State<LoginPage> {
 
               // Password TextField
               TextField(
+                controller: _passwordController,
                 obscureText: !_isPasswordVisible,
                 decoration: InputDecoration(
                   hintText: 'პაროლი',
@@ -69,10 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFF00C6FF),
-                        Color(0xFF0072FF),
-                      ], // your gradient colors
+                      colors: [Color(0xFF00C6FF), Color(0xFF0072FF)],
                       begin: Alignment.centerLeft,
                       end: Alignment.centerRight,
                     ),
@@ -80,9 +92,8 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          Colors.transparent, // make background transparent
-                      shadowColor: Colors.transparent, // remove shadow
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -109,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 20),
 
               // Divider with OR
-              Row(
+              const Row(
                 children: [
                   Expanded(child: Divider()),
                   Padding(
@@ -154,8 +165,26 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => const RegisterPage(),
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  const RegisterPage(),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                                const begin = Offset(1.0, 0.0);
+                                const end = Offset.zero;
+                                const curve = Curves.easeInOut;
+
+                                var tween = Tween(
+                                  begin: begin,
+                                  end: end,
+                                ).chain(CurveTween(curve: curve));
+                                return SlideTransition(
+                                  position: animation.drive(tween),
+                                  child: child,
+                                );
+                              },
+                          transitionDuration: const Duration(milliseconds: 300),
                         ),
                       );
                     },
