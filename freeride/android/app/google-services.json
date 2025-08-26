@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1022500639600",
+    "project_id": "freeride-30084",
+    "storage_bucket": "freeride-30084.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1022500639600:android:b116cf3a2f24b0abd3f5b5",
+        "android_client_info": {
+          "package_name": "com.example.freeride"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD04MqPeCAVYnRkvtuvEjV3uPD17dE8BAs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1022500639600:android:4c43be3f9d977533d3f5b5",
+        "android_client_info": {
+          "package_name": "com.freeride.FreeRide"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD04MqPeCAVYnRkvtuvEjV3uPD17dE8BAs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
