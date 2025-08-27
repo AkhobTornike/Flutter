@@ -1,46 +1,66 @@
+import 'package:FreeRide/widgets/footer_widget.dart';
+import 'package:FreeRide/widgets/sos_icon.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import '../modules/map_module.dart';
 
-import 'login_screen.dart';
-
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // Get the current user
-    final user = FirebaseAuth.instance.currentUser;
+  State<HomeScreen> createState() => _HomeScreenState();
+}
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
+class _HomeScreenState extends State<HomeScreen> {
+  void _onSOSPressed() async {
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('SOS'),
+        content: const Text('გსურთ გაუგზავნოთ SOS? (This is a demo action)'),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-              // Navigate back to LoginScreen
-              if (!context.mounted) return;
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginScreen()),
-              );
-            },
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Send'),
           ),
         ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Logged in as:', style: TextStyle(fontSize: 18)),
-            const SizedBox(height: 10),
-            Text(
-              user?.email ?? 'No user',
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
+    );
+
+    if (result == true) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('SOS sent (demo)')));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          // Map takes full screen
+          const MapModule(),
+
+          // SOS button only
+          Positioned(
+            right: 16,
+            bottom: 120,
+            child: IconButton(onPressed: _onSOSPressed, icon: const SosIcon()),
+          ),
+
+          // Footer at the bottom
+          const Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: FooterWidget(selectedPageIndex: 1),
+          ),
+        ],
       ),
     );
   }

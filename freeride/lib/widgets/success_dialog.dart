@@ -1,3 +1,4 @@
+import 'package:FreeRide/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 void showSuccessDialog(BuildContext context) {
@@ -16,7 +17,10 @@ void showSuccessDialog(BuildContext context) {
           ),
           const SizedBox(height: 12),
           ElevatedButton(
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const LoginScreen()),
+            ),
             child: const Text("შესვლა"),
           ),
         ],
