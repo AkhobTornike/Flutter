@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:FreeRide/models/onboarding_model.dart';
-import 'package:FreeRide/widgets/onboarding_page.dart';
 import 'package:FreeRide/screens/login_screen.dart';
+import 'package:FreeRide/widgets/onboarding_page.dart';
+import 'package:flutter/material.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -25,21 +25,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       image: 'assets/images/onboarding2.png',
       title: 'რეალურ დროში ამინდი და უსაფრთხოება',
       description:
-          'განახლებული ამინდის ინფორმაცია, ბილიკების სირთულეები და სწრაფი SOS შეტყობინებები, შენი უსაფრთხო თავგადასავლებისთვის ',
+          'განახლებული ამინდის ინფორმაცია, ბილიკების სირთულეები და სწრაფი SOS შეტყობინებები, შენი უსაფრთხო თავგადასავლებისთვის.',
     ),
     OnboardingItem(
       image: 'assets/images/onboarding3.png',
       title: 'შემოუერთდი ჩვენს ქომუნითის',
       description:
-          'გააზიარე შენი მოგზაურობები, აღმოაჩინე ახალი ბილიკები და შეხვდი თავგადასავლების მოყვარულებს მსოფლიოდან',
+          'გააზიარე შენი მოგზაურობები, აღმოაჩინე ახალი ბილიკები და შეხვდი თავგადასავლების მოყვარულებს მსოფლიოდან.',
     ),
   ];
 
-  // Function to navigate to the login screen
   void _navigateToLogin() {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const LoginScreen()),
+      MaterialPageRoute(builder: (_) => const LoginScreen()),
     );
   }
 
@@ -56,9 +55,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         controller: _pageController,
         itemCount: _onboardingItems.length,
         onPageChanged: (int page) {
-          setState(() {
-            _currentPage = page;
-          });
+          setState(() => _currentPage = page);
         },
         itemBuilder: (context, index) {
           return OnboardingPage(item: _onboardingItems[index]);
@@ -71,27 +68,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ? Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // Onboarding indicator dots in the center for the final page
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(
-                        _onboardingItems.length,
-                        (index) => AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          margin: const EdgeInsets.symmetric(horizontal: 4),
-                          width: _currentPage == index ? 24 : 8,
-                          height: 8,
-                          decoration: BoxDecoration(
-                            color: _currentPage == index
-                                ? Colors.blue
-                                : Colors.grey,
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                        ),
-                      ),
-                    ),
+                    _buildIndicators(),
                     const SizedBox(height: 20),
-                    // Single "Done" button for the final page
                     SizedBox(
                       width: double.infinity,
                       height: 50,
@@ -105,7 +83,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         ),
                         child: const Text(
                           'დასრულება',
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Colors.white, fontSize: 16),
                         ),
                       ),
                     ),
@@ -114,27 +92,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               : Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // Onboarding indicator dots in the center for non-final pages
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(
-                        _onboardingItems.length,
-                        (index) => AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          margin: const EdgeInsets.symmetric(horizontal: 4),
-                          width: _currentPage == index ? 24 : 8,
-                          height: 8,
-                          decoration: BoxDecoration(
-                            color: _currentPage == index
-                                ? Colors.blue
-                                : Colors.grey,
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                        ),
-                      ),
-                    ),
+                    _buildIndicators(),
                     const SizedBox(height: 20),
-                    // Skip and Next buttons for non-final pages
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -168,6 +127,25 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                   ],
                 ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildIndicators() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(
+        _onboardingItems.length,
+        (index) => AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          width: _currentPage == index ? 24 : 8,
+          height: 8,
+          decoration: BoxDecoration(
+            color: _currentPage == index ? Colors.blue : Colors.grey,
+            borderRadius: BorderRadius.circular(4),
+          ),
         ),
       ),
     );

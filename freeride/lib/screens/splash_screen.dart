@@ -1,8 +1,10 @@
 import 'dart:math' as math;
-import 'package:flutter/material.dart';
+import 'package:FreeRide/pages/main_page.dart';
 import 'package:FreeRide/screens/onboarding_screen.dart';
-import 'package:FreeRide/widgets/logo_widget.dart';
 import 'package:FreeRide/widgets/logo_text_widget.dart';
+import 'package:FreeRide/widgets/logo_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -50,16 +52,26 @@ class _SplashScreenState extends State<SplashScreen>
     );
 
     _controller.forward().then((_) {
-      if (mounted) {
-        Future.delayed(const Duration(milliseconds: 500), () {
-          if (mounted) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const OnboardingScreen()),
-            );
-          }
-        });
-      }
+      if (!mounted) return;
+
+      Future.delayed(const Duration(milliseconds: 500), () {
+        if (!mounted) return;
+
+        final user = FirebaseAuth.instance.currentUser;
+        if (user != null) {
+          // Already logged in → go straight to MainPage
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const MainPage()),
+          );
+        } else {
+          // Not logged in → go to Onboarding
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const OnboardingScreen()),
+          );
+        }
+      });
     });
   }
 
@@ -90,7 +102,6 @@ class _SplashScreenState extends State<SplashScreen>
               children: [
                 // ---------- PHASE 1 ----------
                 if (_controller.value <= 0.5) ...[
-                  // White circle background
                   Container(
                     width: whiteCircleSize,
                     height: whiteCircleSize,
@@ -99,7 +110,6 @@ class _SplashScreenState extends State<SplashScreen>
                       shape: BoxShape.circle,
                     ),
                   ),
-                  // Rotating arc inside
                   SizedBox(
                     width: whiteCircleSize,
                     height: whiteCircleSize,
@@ -108,7 +118,6 @@ class _SplashScreenState extends State<SplashScreen>
                       child: CustomPaint(painter: ArcPainter()),
                     ),
                   ),
-                  // Logo inside circle
                   LogoWidget(size: logoSize * 0.8),
                 ],
 
@@ -178,7 +187,6 @@ class ArcPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
 
-    // Centered arc
     canvas.drawArc(rect, 0, 2 * math.pi * 0.8, false, paint);
   }
 

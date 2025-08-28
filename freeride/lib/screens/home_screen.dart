@@ -1,4 +1,4 @@
-import 'package:FreeRide/widgets/footer_widget.dart';
+import 'package:FreeRide/widgets/main_layout.dart';
 import 'package:FreeRide/widgets/sos_icon.dart';
 import 'package:flutter/material.dart';
 import '../modules/map_module.dart';
@@ -40,8 +40,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
+    return MainLayout(
+      selectedPageIndex: 1,
+      child: Stack(
         children: [
           // Map takes full screen
           const MapModule(),
@@ -49,16 +50,8 @@ class _HomeScreenState extends State<HomeScreen> {
           // SOS button only
           Positioned(
             right: 16,
-            bottom: 120,
+            bottom: 16,
             child: IconButton(onPressed: _onSOSPressed, icon: const SosIcon()),
-          ),
-
-          // Footer at the bottom
-          const Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: FooterWidget(selectedPageIndex: 1),
           ),
         ],
       ),

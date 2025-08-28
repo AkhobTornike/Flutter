@@ -1,4 +1,6 @@
-import 'package:FreeRide/widgets/footer_widget.dart';
+import 'package:FreeRide/screens/home_screen.dart';
+import 'package:FreeRide/screens/news_screen.dart';
+import 'package:FreeRide/widgets/main_layout.dart';
 import 'package:flutter/material.dart';
 
 // Assuming you have your FooterWidget defined in another file.
@@ -9,13 +11,19 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MainLayout(
+      selectedPageIndex: 4,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const HomeScreen()),
+            );
+          },
         ),
         title: const Text(
           'ჩემი ინფორმაცია', // My Information
@@ -25,11 +33,16 @@ class ProfilePage extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications_none, color: Colors.black),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const NewsScreen()),
+              );
+            },
           ),
         ],
       ),
-      body: SingleChildScrollView(
+      child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
@@ -56,10 +69,6 @@ class ProfilePage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: const FooterWidget(
-        selectedPageIndex: 4,
-      ), // Phone Number, 555121312444
-      // bottomNavigationBar: const FooterWidget(), // Uncomment this line and replace with your actual widget
     );
   }
 
@@ -69,8 +78,8 @@ class ProfilePage extends StatelessWidget {
         children: [
           const CircleAvatar(
             radius: 60,
-            backgroundImage: NetworkImage(
-              'https://example.com/your_profile_image.jpg',
+            backgroundImage: AssetImage(
+              'assets/images/profile_image.png',
             ), // Replace with user's profile image URL from Firebase Storage
           ),
           Positioned(

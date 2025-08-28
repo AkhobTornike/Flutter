@@ -1,5 +1,7 @@
 import 'package:FreeRide/screens/home_screen.dart';
+import 'package:FreeRide/screens/news_screen.dart';
 import 'package:FreeRide/screens/profile_screen.dart';
+import 'package:FreeRide/screens/routes_screen.dart';
 import 'package:FreeRide/widgets/news_icon.dart';
 import 'package:FreeRide/widgets/profile_icon.dart';
 import 'package:FreeRide/widgets/routes_icon.dart';
@@ -42,13 +44,19 @@ class FooterWidget extends StatelessWidget {
           IconButton(
             icon: RoutesIcon(isOn: selectedPageIndex == 2),
             onPressed: () {
-              // Handle Map navigation
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const RouteScreen()),
+              );
             },
           ),
           IconButton(
             icon: NewsIcon(isOn: selectedPageIndex == 3),
             onPressed: () {
-              // Handle Profile navigation
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const NewsScreen()),
+              );
             },
           ),
           IconButton(
