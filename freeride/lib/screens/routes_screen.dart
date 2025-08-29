@@ -119,33 +119,46 @@ class _RouteScreenState extends State<RouteScreen> {
                       Positioned(
                         top: 12,
                         right: 12,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 6,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.black.withValues(alpha: 0.6),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                route["weatherIcon"],
-                                color: Colors.white,
-                                size: 18,
-                              ),
-                              const SizedBox(width: 4),
-                              Text(
-                                route["temperature"],
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
+                        // Wrap the container in a button widget
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const HomeScreen(
+                                  isWeatherWidgetExpanded: true,
                                 ),
                               ),
-                            ],
+                            );
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 6,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.black.withValues(alpha: 0.6),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  route["weatherIcon"],
+                                  color: Colors.white,
+                                  size: 18,
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  route["temperature"],
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -209,48 +222,6 @@ class _RouteScreenState extends State<RouteScreen> {
                             color: Colors.blue.shade100,
                           ),
                           const Spacer(),
-                          // Weather indicator in the info section
-                          // Weather button in the info section
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      HomeScreen(isWeatherWidgetExpanded: true),
-                                ),
-                              );
-                            },
-                            style: TextButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 4,
-                              ),
-                              backgroundColor: Colors.blue.shade50,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  route["weatherIcon"],
-                                  size: 16,
-                                  color: Colors.blue.shade800,
-                                ),
-                                const SizedBox(width: 4),
-                                Text(
-                                  route["temperature"],
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.blue.shade800,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
                         ],
                       ),
 
@@ -301,11 +272,11 @@ class _RouteScreenState extends State<RouteScreen> {
 
   Color _getDifficultyColor(String difficulty) {
     switch (difficulty.toLowerCase()) {
-      case 'easy':
+      case 'მარტივი':
         return Colors.green.shade100;
-      case 'medium':
+      case 'საშუალო':
         return Colors.orange.shade100;
-      case 'hard':
+      case 'რთული':
         return Colors.red.shade100;
       default:
         return Colors.grey.shade100;
