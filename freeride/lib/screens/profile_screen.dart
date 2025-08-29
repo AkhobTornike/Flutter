@@ -1,14 +1,18 @@
 import 'package:FreeRide/screens/home_screen.dart';
 import 'package:FreeRide/screens/news_screen.dart';
 import 'package:FreeRide/widgets/main_layout.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:FreeRide/services/auth_service.dart'; // Add this import
 
-// Assuming you have your FooterWidget defined in another file.
-// import 'your_footer_widget_file.dart';
-
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return MainLayout(
@@ -21,7 +25,10 @@ class ProfilePage extends StatelessWidget {
           onPressed: () {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const HomeScreen()),
+              MaterialPageRoute(
+                builder: (context) =>
+                    const HomeScreen(isWeatherWidgetExpanded: false),
+              ),
             );
           },
         ),
@@ -57,7 +64,7 @@ class ProfilePage extends StatelessWidget {
               ), // Name, Lika Pachurishvili
               _buildInputField(
                 'ელ-ფოსტა',
-                'likatyebuchava@gmail.com',
+                FirebaseAuth.instance.currentUser?.email ?? '',
               ), // Email, likatyebuchava@gmail.com
               _buildInputField(
                 'დაბადების თარიღი',
@@ -65,6 +72,43 @@ class ProfilePage extends StatelessWidget {
               ), // Date of Birth, 23/05/1995
               _buildPasswordField('პაროლი', '*********'), // Password, *********
               _buildPasswordField('ტელეფონი', '555121312444'),
+              // logut button
+              const SizedBox(height: 30),
+
+              ElevatedButton(
+                onPressed: () async {
+                  try {
+                    await AuthService.instance.signOut();
+                    // Navigate to login screen or home screen after sign out
+                    if (mounted) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              const HomeScreen(isWeatherWidgetExpanded: false),
+                        ),
+                      );
+                    }
+                  } catch (e) {
+                    if (mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('გამოსვლა ვერ მოხერხდა: $e')),
+                      );
+                    }
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: const Text(
+                  'გამოსვლა',
+                  style: TextStyle(fontSize: 16, color: Colors.white),
+                ),
+              ),
             ],
           ),
         ),

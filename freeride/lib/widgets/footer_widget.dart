@@ -1,10 +1,12 @@
 import 'package:FreeRide/screens/home_screen.dart';
+import 'package:FreeRide/screens/login_screen.dart';
 import 'package:FreeRide/screens/news_screen.dart';
 import 'package:FreeRide/screens/profile_screen.dart';
 import 'package:FreeRide/screens/routes_screen.dart';
 import 'package:FreeRide/widgets/news_icon.dart';
 import 'package:FreeRide/widgets/profile_icon.dart';
 import 'package:FreeRide/widgets/routes_icon.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:FreeRide/widgets/home_icon.dart';
 
@@ -62,10 +64,18 @@ class FooterWidget extends StatelessWidget {
           IconButton(
             icon: ProfileIcon(isOn: selectedPageIndex == 4),
             onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const ProfilePage()),
-              );
+              final user = FirebaseAuth.instance.currentUser;
+              if (user == null) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                );
+              } else {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ProfilePage()),
+                );
+              }
             },
           ),
         ],

@@ -44,7 +44,6 @@ class _MapModuleState extends State<MapModule> {
         _isLoading = false;
       });
     } catch (e) {
-      print('Error getting location: $e');
       setState(() => _isLoading = false);
     }
   }

@@ -19,6 +19,8 @@ class _RouteScreenState extends State<RouteScreen> {
       "difficulty": "საშუალო",
       "length": "12.4 კმ",
       "rating": 4.8,
+      "temperature": "25°C",
+      "weatherIcon": Icons.wb_sunny,
       "details":
           "ულამაზესი სამთო მარშრუტი პანორამული ხედებით. იდეალურია საშუალო დონის მოთხილამურეებისთვის.",
     },
@@ -28,6 +30,8 @@ class _RouteScreenState extends State<RouteScreen> {
       "difficulty": "მარტივი",
       "length": "8.7 კმ",
       "rating": 4.5,
+      "temperature": "18°C",
+      "weatherIcon": Icons.cloud,
       "details":
           "დასასვენებელი გასეირნება ხშირ ტყეში კარგად მოვლილი ბილიკებით.",
     },
@@ -37,6 +41,8 @@ class _RouteScreenState extends State<RouteScreen> {
       "difficulty": "რთული",
       "length": "22.1 კმ",
       "rating": 4.9,
+      "temperature": "22°C",
+      "weatherIcon": Icons.wb_cloudy,
       "details":
           "რთული სანაპირო მარშრუტი ციცაბო აღმართებითა და ოკეანის ხედებით.",
     },
@@ -101,10 +107,49 @@ class _RouteScreenState extends State<RouteScreen> {
                   borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(12),
                   ),
-                  child: Image.asset(
-                    route["image"],
-                    height: 200,
-                    fit: BoxFit.cover,
+                  child: Stack(
+                    children: [
+                      Image.asset(
+                        route["image"],
+                        height: 200,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                      ),
+                      // Weather indicator on top of image
+                      Positioned(
+                        top: 12,
+                        right: 12,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withValues(alpha: 0.6),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                route["weatherIcon"],
+                                color: Colors.white,
+                                size: 18,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                route["temperature"],
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
 
@@ -162,6 +207,49 @@ class _RouteScreenState extends State<RouteScreen> {
                             icon: Icons.alt_route,
                             text: route["length"],
                             color: Colors.blue.shade100,
+                          ),
+                          const Spacer(),
+                          // Weather indicator in the info section
+                          // Weather button in the info section
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      HomeScreen(isWeatherWidgetExpanded: true),
+                                ),
+                              );
+                            },
+                            style: TextButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
+                              backgroundColor: Colors.blue.shade50,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  route["weatherIcon"],
+                                  size: 16,
+                                  color: Colors.blue.shade800,
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  route["temperature"],
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.blue.shade800,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
