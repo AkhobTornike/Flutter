@@ -1,3 +1,4 @@
+import 'package:FreeRide/widgets/info_box_widget.dart';
 import 'package:FreeRide/widgets/main_layout.dart';
 import 'package:FreeRide/widgets/sos_icon.dart';
 import 'package:FreeRide/widgets/weather_widget.dart';
@@ -72,6 +73,8 @@ class _HomeScreenState extends State<HomeScreen> {
             isExpanded: _isWeatherExpanded,
             onToggle: _toggleWeather,
           ),
+
+          InfoBoxWidget(),
 
           // SOS button only
           Positioned(

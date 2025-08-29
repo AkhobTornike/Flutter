@@ -52,6 +52,7 @@ class _RegisterFormState extends State<RegisterForm> {
       await AuthService.instance.registerWithEmail(
         _model.emailController.text,
         _model.passwordController.text,
+        _model.nameController.text,
       );
       if (!mounted) return;
       showSuccessDialog(context);

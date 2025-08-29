@@ -1,4 +1,3 @@
-// modules/map_module.dart
 import 'package:FreeRide/widgets/blue_marker.dart';
 import 'package:FreeRide/widgets/orange_marker.dart';
 import 'package:flutter/material.dart';
@@ -35,8 +34,13 @@ class _MapModuleState extends State<MapModule> {
         }
       }
 
+      // Use the locationSettings parameter to specify accuracy.
+      LocationSettings locationSettings = const LocationSettings(
+        accuracy: LocationAccuracy.high,
+      );
+
       Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
+        locationSettings: locationSettings,
       );
 
       setState(() {
