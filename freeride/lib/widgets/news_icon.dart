@@ -11,6 +11,6 @@ class NewsIcon extends StatelessWidget {
         ? 'assets/nav/news_nav_on.png'
         : 'assets/nav/news_nav_off.png';
 
-    return Image.asset(imagePath, width: 60, height: 60);
+    return Image.asset(imagePath, width: 50, height: 50);
   }
 }

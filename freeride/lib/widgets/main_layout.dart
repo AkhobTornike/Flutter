@@ -5,14 +5,14 @@ class MainLayout extends StatelessWidget {
   final Widget child;
   final PreferredSizeWidget? appBar;
   final bool showFooter;
-  final int? selectedPageIndex; // NEW
+  final int? selectedPageIndex;
 
   const MainLayout({
     super.key,
     required this.child,
     this.appBar,
     this.showFooter = true,
-    this.selectedPageIndex, // optional but needed for footer
+    this.selectedPageIndex,
   });
 
   @override

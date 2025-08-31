@@ -11,6 +11,6 @@ class HomeIcon extends StatelessWidget {
         ? 'assets/nav/home_nav_on.png'
         : 'assets/nav/home_nav_off.png';
 
-    return Image.asset(imagePath, width: 40, height: 40);
+    return Image.asset(imagePath, width: 30, height: 30);
   }
 }

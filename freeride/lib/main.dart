@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const SplashScreen(), // start with splash
+      home: const SplashScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

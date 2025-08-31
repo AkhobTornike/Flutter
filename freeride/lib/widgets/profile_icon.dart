@@ -11,6 +11,6 @@ class ProfileIcon extends StatelessWidget {
         ? 'assets/nav/profile_nav_on.png'
         : 'assets/nav/profile_nav_off.png';
 
-    return Image.asset(imagePath, width: 50, height: 50);
+    return Image.asset(imagePath, width: 40, height: 40);
   }
 }

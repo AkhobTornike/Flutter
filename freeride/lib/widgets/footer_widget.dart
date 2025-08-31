@@ -1,8 +1,10 @@
+import 'package:FreeRide/screens/faq_screen.dart';
 import 'package:FreeRide/screens/home_screen.dart';
 import 'package:FreeRide/screens/login_screen.dart';
 import 'package:FreeRide/screens/news_screen.dart';
 import 'package:FreeRide/screens/profile_screen.dart';
 import 'package:FreeRide/screens/routes_screen.dart';
+import 'package:FreeRide/widgets/faq_icon.dart';
 import 'package:FreeRide/widgets/news_icon.dart';
 import 'package:FreeRide/widgets/profile_icon.dart';
 import 'package:FreeRide/widgets/routes_icon.dart';
@@ -18,7 +20,7 @@ class FooterWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
+      padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 12),
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border(top: BorderSide(color: Colors.grey.shade300, width: 1)),
@@ -31,7 +33,7 @@ class FooterWidget extends StatelessWidget {
         ],
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           // Use the selectedPageIndex to determine if the icon is 'on'
           IconButton(
@@ -76,6 +78,15 @@ class FooterWidget extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const ProfilePage()),
                 );
               }
+            },
+          ),
+          IconButton(
+            icon: FaqIcon(isOn: selectedPageIndex == 5),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const FaqScreen()),
+              );
             },
           ),
         ],
